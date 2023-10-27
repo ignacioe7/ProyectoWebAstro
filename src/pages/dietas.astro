@@ -1,4 +1,10 @@
 ---
+import { Image } from "astro:assets";
+import Paleo from "../assets/Paleo.png";
+import Alcalina from "../assets/Alcalina.png";
+import Mediterranea from "../assets/Mediterranea.png"
+import Vegetariana from "../assets/Vegetariana.png"
+
 import Layout from "../layouts/Layout.astro";
 ---
 
@@ -14,6 +20,13 @@ import Layout from "../layouts/Layout.astro";
                 >
                     Paleo
                 </h1>
+                <div >
+                    <Image src= {Paleo} 
+                    alt="Imagen de dieta paleo"
+                    width={400}
+                    height={500} 
+                    />
+                </div>
                 <p class="mx-auto text-base leading-relaxed text-slate-100">
                     Breve descripción de la dieta
                 </p>
@@ -23,7 +36,9 @@ import Layout from "../layouts/Layout.astro";
                         href="#"
                         class="inline-flex items-center mt-4 font-semibold text-blue-600 lg:mb-0 hover:text-neutral-600"
                         title="read more"
+                       
                     >
+
                         Leer más »</a
                     >
                 </div>
@@ -35,6 +50,13 @@ import Layout from "../layouts/Layout.astro";
                 >
                     Mediterranea
                 </h1>
+                <div>
+                    <Image src= {Mediterranea} alt="Imagen de dieta mediterranea"
+                    width={300}
+                    height={300} 
+                    
+                    />
+                </div>
                 <p class="mx-auto text-base leading-relaxed text-slate-100">
                     Breve descripción de la dieta
                 </p>
@@ -56,6 +78,9 @@ import Layout from "../layouts/Layout.astro";
                 >
                     Vegetariana
                 </h1>
+                <div>
+                    <Image src= {Vegetariana} alt="Imagen de dieta vegetariana">
+                </div>
                 <p class="mx-auto text-base leading-relaxed text-slate-100">
                     Breve descripción de la dieta
                 </p>
@@ -77,6 +102,9 @@ import Layout from "../layouts/Layout.astro";
                 >
                     Alcalina
                 </h1>
+                <div>
+                    <Image src= {Alcalina} alt="Imagen de dieta alcalina">
+                </div>
                 <p class="mx-auto text-base leading-relaxed text-slate-100">
                     Breve descripción de la dieta
                 </p>

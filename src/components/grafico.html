@@ -1,0 +1,38 @@
+<html>
+    <head>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+  
+        function drawChart() {
+          var data = google.visualization.arrayToDataTable([
+            ['Mes', 'IMC'],
+            ['Mayo',  33],
+            ['Junio',  30],
+            ['Julio',  29],
+            ['Agosto',  28.4],
+            ['Septiembre' , 29.1],
+            ['Octubre' ,28.5],
+            ['Nomviembre' , 29],
+            ['Diciembre',28.7],
+            ['Enero',29.3],
+          ]);
+  
+          var options = {
+            title: 'Progreso de IMC',
+            curveType: 'function',
+            legend: { position: 'bottom' }
+          };
+  
+          var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+  
+          chart.draw(data, options);
+        }
+      </script>
+    </head>
+    <body>
+      <div id="curve_chart" style=" width: 1220px; height: 500px "></div>
+    </body>
+  </html>
+  
