@@ -64,7 +64,7 @@ export const MobileHeader = () => {
             <a class="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
               href="/contacto">Contacto</a>
             <a class="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
-              href="/informacion">Blog</a>
+              href="/blog">Blog</a>
             <a class="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
               href="perfilUsuario">perfil</a>
               
@@ -72,9 +72,9 @@ export const MobileHeader = () => {
           <div class="relative bottom-0">
               <div class="pt-6">
                 <a class="block px-4 py-3 mb-3 leading-loose text-xl text-center font-semibold transition-colors duration-900 ease-in-out transform active:scale-95 bg-transparent hover:bg-gradient-to-r from-yellow-300 to-red-600 text-gray-50 hover:text-gray-800 rounded-xl "
-                  href="/pages/InicioSesion.html">Iniciar Sesión</a>
+                  href="/inicioSesion">Iniciar Sesión</a>
                 <a class="block px-4 py-3 mb-2 leading-loose text-xl text-center text-white font-semibold bg-gradient-to-r from-red-600 to-purple-600 hover:from-blue-600 hover:to-green-500 rounded-xl transition-colors duration-500 transform active:scale-95"
-                  href="/pages/Registro.html">Crear cuenta</a>
+                  href="/registro">Crear cuenta</a>
               </div>
               <p class="my-4 text-xs text-center text-gray-400">
                 <span>Copyright © 2023</span>
