@@ -1,0 +1,32 @@
+[
+    {
+        "id":"1",
+        "nombre": "Mediterránea",
+        "descripcion": "Sirve para prevenir enfermedades cardiovasculares, diabetes, obesidad y cáncer. Se basa en productos de origen vegetal, pan, cereales, aceite de oliva, vino y pescado"
+    },
+    {
+        "id":"2",
+        "nombre": "Hipocalórica",
+        "descripcion": "Sirve para perder peso y grasa corporal. Se basa en alimentos bajos en calorías y ricos en nutrientes, como verduras, frutas, carnes magras, pescados, huevos y lácteos desnatados"
+    },
+    {
+        "id":"3",
+        "nombre": "Hipércalórica",
+        "descripcion": "Sirve para ganar peso y masa muscular. Se basa en alimentos altos en calorías y nutrientes, como cereales integrales, legumbres, frutos secos, carnes, pescados, huevos y lácteos enteros"
+    },
+    {
+        "id":"4",
+        "nombre": "Proteica",
+        "descripcion": "Sirve para favorecer la síntesis de proteínas musculares y evitar la pérdida de masa magra. Se basa en alimentos ricos en proteínas de alto valor biológico, como carnes, pescados, huevos, lácteos y suplementos proteicos"
+    },
+    {
+        "id":"5",
+        "nombre": "Detox",
+        "descripcion": "Sirve para eliminar las toxinas acumuladas en el organismo y mejorar la salud y el bienestar general. Se basa en alimentos naturales y depurativos, como verduras, frutas, infusiones, zumos naturales y agua"
+    },
+    {
+        "id":"6",
+        "nombre": "Alcalina",
+        "descripcion": "Sirve para prevenir o tratar enfermedades relacionadas con la acidificación del organismo, como la osteoporosis, el cáncer o el envejecimiento prematuro. Se basa en alimentos alcalinos, como verduras, frutas, frutos secos, semillas y cereales integrales"
+    }
+]

@@ -1,15 +1,10 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import CrearCuenta from '../components/CrearCuenta.tsx';
-  const handleSubmit = (datos: any) => {
-    console.log(datos);
-    alert("Formulario enviado");
-  };
+import Layout from "../layouts/Layout.astro";
+import CrearCuenta from "../components/CrearCuenta.tsx";
 ---
 
 <Layout title="Crear Cuenta">
   <div class="py-6">
-    <CrearCuenta onSubmit={handleSubmit}/>
+      <CrearCuenta client:load />
   </div>
-  
 </Layout>
