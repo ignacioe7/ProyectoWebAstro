@@ -1,6 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Grafico from "../components/grafico.html";
 import ImagenPerfil from "../assets/logo.png"
 ---
 
@@ -31,10 +30,9 @@ import ImagenPerfil from "../assets/logo.png"
         </div>
       </div>
     </div>
-    
   <section class="px-4 py-12 mx-auto max-w-7xl">
+    <canvas id="miGrafico" width="600" height="200"></canvas>
     <div class="grid grid-cols-1 gap-4 lg:grid-cols-1 lg:gap-8">
-      <Grafico />
       <div class="h-32 rounded-lg bg-black lg:col-span-2">
         <div>
           <h3 class="text-center text-white pt-8">Progreso diario</h3>
@@ -83,3 +81,5 @@ import ImagenPerfil from "../assets/logo.png"
   </section>
 </Layout>
 
+<script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
+<script type="module" src="grafica.js"></script>
