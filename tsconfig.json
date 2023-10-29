@@ -1,10 +1,11 @@
 {
   "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
-    "jsx": "react",
+    "jsx": "react-jsx",
     "useUnknownInCatchVariables": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
-    "strictFunctionTypes": true
+    "strictFunctionTypes": true,
+    "jsxImportSource": "react"
   }
 }
