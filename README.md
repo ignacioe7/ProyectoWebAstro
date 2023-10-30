@@ -1,54 +1,46 @@
-# Astro Starter Kit: Basics
+# ProyectoWeb
 
-```sh
-npm create astro@latest -- --template basics
-```
+## Pasos iniciales
+Instalar las dependencias de NPM con el comando:
+    ```bash
+    npm install
+    ```
+Ejecutar el proyecto con el comando:
+    ```bash
+    npm run dev
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/basics)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/basics)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/basics/devcontainer.json)
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+Este es el repositorio donde se realizara el proyecto del ramo de ingenieria web
+#
+Figma-link: https://www.figma.com/file/cCPoY7kLh8h6Z91fEkcTzi/Untitled?type=design&node-id=0%3A1&mode=design&t=gTrin1TBBTRimuYB-1
+#
+FUNCIONALIDADES:
+1. En el inicio de sesión el usuario podrá ingresar sus datos (previamente ya registrados y almacenados en nuestra base de datos) tales como el correo y su contraseña para poder entrar a su perfil personalizado.
 
-![just-the-basics](https://github.com/withastro/astro/assets/2244813/a0a5533c-a856-4198-8470-2d67b1d7c554)
+2. En la página de crear cuenta, el usuario anónimo en ese instante, podrá crear su cuenta ingresando sus datos requeridos por la empresa, tales como: nombre, correo, rut, región, comuna, contraseña. Cabe destacar que hay que hacer sus validaciones correspondientes, además de que el usuario deberá aceptar nuestros términos y condiciones.
 
-## 🚀 Project Structure
+3. En la página Ejercitación el usuario podrá ver una breve descripción de los ejercicios que tiene cada plan, además de ver en qué se enfoca éstas rutinas, es decir, si la rutina es para ganar masa, perder peso, entre otras. Además de eso, verá tambien para quiénes está recomendado esa rutina.
 
-Inside of your Astro project, you'll see the following folders and files:
+4. En la página Completar datos Faltantes, el usuario recien creado debera seguir copmpletando el formulario para llegar a su objetivo de una manera lo más precisa posible, es decir que el usuario deberá ingresar datos tales como: cuál es su objetivo (bajar peso, ganar masa, mejorar resistencia, entre otros). Ademas luego deberá completar otros datos como lo son: altura, peso, fecha nacimiento, entre otros. Ésto con el fin de que el usuario pueda ver la dieta y ejercicio enfocada para su objetivo.
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src/
-│   ├── components/
-│   │   └── Card.astro
-│   ├── layouts/
-│   │   └── Layout.astro
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+5. En la página Perfil del usuario él podrá ver sus datos tales como su foto de perfil, su progreso de la semana, el historial de rutinas, además de sus datos personales que ingresó anteriormente y que podrá modificar en caso de que lo requiera.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+6. En la página Foro de Noticias, los usuarios podrán ver las noticias de las semana con datos relevantes acerca de la vida saludable, como también consejos que el usuario puede seguir si así lo desea.
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+7. En la página Dietas, el usuario podrá ver una serie de dietas que existen con sus eventuales comidas y recetas para que el usuario pueda seguir.
 
-Any static assets, like images, can be placed in the `public/` directory.
+8. En la página Principal, el usuario podrá ver una breve descripción de lo qué es nuestro propósito como empresa y el objetivo que deseamos lograr.
 
-## 🧞 Commands
+9. En la página Contacto, el usuario podrá completar un formulario con su nombre, correo y su mensaje, tanto para reportar un bug como para realizar una sugerencia.
+    
+INSTRUCCIONES:
+1. PARA INICIAR SESIÓN PRUEBE CON LOS DATOS DE USUARIO, UNO DE ELLOS ES EL FAMOSÍSIMO:
 
-All commands are run from the root of the project, from a terminal:
+            correo: pepito@gmail.com
+            contraseña: 1234
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+¿QUÉ ES CBOOM?
+CBOOM es una página web que tiene como objetivo ayudar a sus usuarios a mejorar su salud física de forma efectiva y divertida. En CBOOM, puedes encontrar dietas personalizadas y planes de ejercicios adaptados a tu nivel, objetivos y preferencias. Además, puedes acceder a consejos, recetas, vídeos y artículos sobre nutrición, deporte y bienestar. CBOOM te ofrece un acompañamiento profesional y motivador para que logres tus metas de forma saludable y sostenible.
 
-## 👀 Want to learn more?
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
