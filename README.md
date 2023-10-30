@@ -1,13 +1,11 @@
 # ProyectoWeb
 
 ## Pasos iniciales
-Instalar las dependencias de NPM con el comando:
-    ```bash
-    npm install
-    ```
-Ejecutar el proyecto con el comando:
-    ```bash
-    npm run dev
+1. Instalar las dependencias de NPM con el comando:
+    ```npm install```
+    
+2. Ejecutar el proyecto con el comando:
+    ```npm run dev```
 
 
 Este es el repositorio donde se realizara el proyecto del ramo de ingenieria web
