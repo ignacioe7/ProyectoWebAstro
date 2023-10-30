@@ -7,37 +7,40 @@ import { Image } from 'astro:assets';
 
 <Layout2 title="Acerca de nosotros">
     
-        <div class="gap-16  py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
+        <div class="gap-16 items-center py-8 px-4 mx-auto max-w-screen-xl lg:grid lg:grid-cols-2 lg:py-16 lg:px-6">
             <div class="font-light text-gray-500 sm:text-lg dark:text-gray-400 mt-8">
-                <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">¿Quíenes somos?</h2>
-                <p class="mb-4"></p>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis tenetur praesentium similique doloremque reprehenderit consectetur ipsam illum quidem voluptates deleniti odit, hic iure modi veniam eligendi iste accusamus cupiditate assumenda.</p>
-                <div class="grid grid-cols-1 text-gray-500 mt-16">
-                Hola
+                <h2 class="mb-4 text-4xl tracking-tight font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-violet-500">¿Quíenes somos?</h2>
+                <p class="text-white">Somos un equipo conformado por 3 estudiantes de la carrera de Ingeniería de ejecución informática, Dorian, Ignacio y Vicente.</p>
+                <p class="mt-4 text-white">Realizamos esta página web para el ramo de Ingeniería web.</p>
+                <div class="mt-8">
+                    <a href="/acercaDe/#integrantes">
+                        <button class="h-10 px-6 font-semibold rounded-md bg-gray-800 text-white">Integrantes</button>
+                    </a>
                 </div>
             </div>
+            
             
             <div class="grid grid-cols-2 gap-4 mt-8">
                 <img class="w-full rounded-lg" src="src/assets/5.png" alt="office content 1">
                 <img class="mt-4 w-full lg:mt-10 rounded-lg" src="src/assets/6.png" alt="office content 2">
             </div>
         </div>
-        <section id="" class="bg-white dark:bg-gray-900">
+        <section id="integrantes" class="bg-white dark:bg-gray-900">
             <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6 ">
                 <div class="grid gap-8 mb-6 lg:mb-16 md:grid-cols-3">
                     
                     <div class="items-center bg-gray-50 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                         <div>
                             <a href="#">
-                                <img class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Jese Avatar">
+                                <img class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Dorian Avatar">
                             </a>
                         </div>
                         <div class="p-5">
                             <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 <a href="#">Dorian Canales</a>
                             </h3>
-                            <span class="text-gray-500 dark:text-gray-400">CTO</span>
-                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Jese drives the technical strategy of the flowbite platform and brand.</p>
+                            <span class="text-gray-500 dark:text-gray-400">Back-end Developer</span>
+                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Dorian es el encargado de manejar y desarrollar el back-end de nuestra web.</p>
                             <ul class="flex space-x-4 sm:mt-0">
                                 <li>
                                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -50,7 +53,7 @@ import { Image } from 'astro:assets';
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                                    <a href="https://github.com/DorianICG" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
                                     </a>
                                 </li>
@@ -64,14 +67,14 @@ import { Image } from 'astro:assets';
                     </div> 
                     <div class="items-center bg-gray-50 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
-                            <img class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="Michael Avatar">
+                            <img class="w-full rounded-lg sm:rounded-lg sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/michael-gouch.png" alt="Ignacio Avatar">
                         </a>
                         <div class="p-5">
                             <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 <a href="#">Ignacio Villalobos</a>
                             </h3>
-                            <span class="text-gray-500 dark:text-gray-400">Senior Front-end Developer</span>
-                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Michael drives the technical strategy of the flowbite platform and brand.</p>
+                            <span class="text-gray-500 dark:text-gray-400">Front-end Developer</span>
+                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Ignacio es el encargado de manejar y desarrollar el front-end de nuestra página web.</p>
                             <ul class="flex space-x-4 sm:mt-0">
                                 <li>
                                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -84,7 +87,7 @@ import { Image } from 'astro:assets';
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                                    <a href="https://github.com/ignacioe7" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
                                     </a>
                                 </li>
@@ -98,14 +101,14 @@ import { Image } from 'astro:assets';
                     </div> 
                     <div class="items-center bg-gray-50 rounded-lg dark:bg-gray-800 dark:border-gray-700">
                         <a href="#">
-                            <img class="w-full rounded-lg sm:rounded-none sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/sofia-mcguire.png" alt="Sofia Avatar">
+                            <img class="w-full rounded-lg sm:rounded-lg sm:rounded-l-lg" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/jese-leos.png" alt="Vicente Avatar">
                         </a>
                         <div class="p-5">
                             <h3 class="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                                 <a href="#">Vicente Herrera</a>
                             </h3>
-                            <span class="text-gray-500 dark:text-gray-400">Marketing & Sale</span>
-                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Lana drives the technical strategy of the flowbite platform and brand.</p>
+                            <span class="text-gray-500 dark:text-gray-400">UX</span>
+                            <p class="mt-3 mb-4 font-light text-gray-500 dark:text-gray-400">Vicente es el encargado me manejar y mejorar la experiencia del usuario.</p>
                             <ul class="flex space-x-4 sm:mt-0">
                                 <li>
                                     <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
@@ -118,7 +121,7 @@ import { Image } from 'astro:assets';
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                                    <a href="https://github.com/VicenteHerreraM" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd" /></svg>
                                     </a>
                                 </li>
