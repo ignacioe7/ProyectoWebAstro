@@ -3,6 +3,7 @@ import type { SubmitHandler } from "react-hook-form";
 import React from "react";
 
 type FormData = {
+  nombre: any;
   correo: string;
   contrasenya: string;
 };

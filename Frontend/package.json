@@ -17,7 +17,7 @@
     "@material-tailwind/react": "^2.1.4",
     "@types/react": "^18.2.31",
     "@types/react-dom": "^18.2.14",
-    "astro": "^3.3.4",
+    "astro": "^3.6.0",
     "chart.js": "^4.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -29,5 +29,9 @@
     "autoprefixer": "^10.4.16",
     "postcss": "^8.4.31",
     "tailwindcss": "^3.3.5"
-  }
+  },
+  "main": "postcss.config.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
