@@ -3,6 +3,9 @@ import mysql from 'mysql';
 import usersRoutes from './routes/usersRoutes';
 import dietsRoutes from './routes/dietsRoutes';
 import routinesRoutes from './routes/routinesRoutes';
+import heightRoutes from './routes/heightRoutes';
+import weightRoutes from './routes/weightRoutes';
+
 
 const app = express();
 const port = 3000;
@@ -19,7 +22,6 @@ db.connect(error => {
     console.error('Error connecting to the database:', error);
     return;
   }
-  console.log('Successfully connected to the database.');
 });
 
 // Middleware to parse JSON bodies
@@ -29,6 +31,8 @@ app.use(express.json());
 app.use('/users', usersRoutes);
 app.use('/diets', dietsRoutes);
 app.use('/routines', routinesRoutes);
+app.use('/height', heightRoutes);
+app.use('/weight', weightRoutes);
 
 // Start the server
 app.listen(port, () => {
