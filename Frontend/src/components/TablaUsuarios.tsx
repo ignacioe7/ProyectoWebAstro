@@ -1,8 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
+type User = {
+  id_user: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+};
+
 const UserTable: React.FC = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -17,26 +24,37 @@ const UserTable: React.FC = () => {
     fetchUsers();
   }, []);
 
+  const deleteUser = async (userId: number) => {
+    try {
+      await axios.delete(`http://localhost:3000/users/${userId}`);
+      const updatedUsers = users.filter(user => user.id_user !== userId);
+      setUsers(updatedUsers);
+    } catch (error) {
+      console.error('Error al eliminar el usuario:', error);
+    }
+  };
+
   return (
     <table>
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Apellido</th>
-          <th>Email</th>
+        <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+          <th className="py-3 px-6 text-left">ID</th>
+          <th className="py-3 px-6 text-left">Nombre</th>
+          <th className="py-3 px-6 text-left">Apellido</th>
+          <th className="py-3 px-6 text-left">Email</th>
+          <th className="py-3 px-6 text-center">Acciones</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody className="text-white text-sm font-light">
         {users.map((user: any) => (
-          <tr key={user.id_user}>
-            <td>{user.id_user}</td>
-            <td>{user.firstName}</td>
-            <td>{user.lastName}</td>
-            <td>{user.email}</td>
-            <td><span onClick={() => {
-              //eliminarUsuario(user.id_user);
-            }}>Eliminar</span></td>
+          <tr key={user.id_user} className="border-b border-gray-200 hover:bg-gray-400">
+            <td className="py-3 px-6 text-left">{user.id_user}</td>
+            <td className="py-3 px-6 text-left">{user.firstName}</td>
+            <td className="py-3 px-6 text-left">{user.lastName}</td>
+            <td className="py-3 px-6 text-left">{user.email}</td>
+            <td className="py-3 px-6 text-center">
+              <button onClick={() => deleteUser(user.id_user)} className="bg-red-500 text-white px-2 py-1 rounded">Eliminar</button>
+            </td>
           </tr>
         ))}
       </tbody>
