@@ -6,10 +6,12 @@ let isAdmin = true;
 ---
 
 <Layout2 title="admin page">
-  <div class="text-white">
+  <div class="place-content-center p-8">
     {
       isAdmin ? (
-        <TablaUsuarios client:load/>
+        <div class="flex justify-center">
+          <TablaUsuarios client:load/>
+        </div>
       ) : (
         <p>No tienes permisos para ver esta página.</p>
       )
