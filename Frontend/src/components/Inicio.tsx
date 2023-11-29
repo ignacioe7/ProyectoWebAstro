@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import React from "react";
+import axios from 'axios';
 
 type FormData = {
   nombre: any;
@@ -15,8 +16,10 @@ const Inicio = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
+  // NO VA
   const [usuarios, setUsuarios] = React.useState<FormData[]>([]);
 
+  // NO VA
   React.useEffect(() => {
     fetch("./src/datos/usuarios.json")
       .then((res) => res.json())
@@ -24,7 +27,36 @@ const Inicio = () => {
       .catch((err) => console.error(err));
   }, []);
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const { correo, contrasenya } = data;
+    // llamar a la API
+    const res = await axios.post('http://localhost:3000/users/login',
+    { correo, contrasenya });
+
+    // res.status -> codigo HTTP de la respuesta -> 200 OK
+    // res.data -> Datos que devuelve la API
+    // if (res.status === 200) -> Quiere decir que hubo exito
+
+    // DESDE EL BACKEND
+    //res.status(200).json({
+    //  token, rol, correo, rut
+    //})
+
+    //res.status(401).json({
+    //  error: 'no se pudo'
+    //})
+
+    // DESDE EL FRONTEND
+
+    //if (res.status === 200) {
+      // inicio de sesion exitoso
+    //  alert('Inicio de sesion exitoso')
+    //} else if (res.status === 401) {
+    //  alert('Hubo un error al autenticar')
+    //}
+
+
+    // NO VA
     const usuarioEncontrado = usuarios.find(
       (usuario) =>
         usuario.correo === data.correo &&
