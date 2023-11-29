@@ -6,6 +6,7 @@ import dietsRoutes from './routes/dietsRoutes';
 import routinesRoutes from './routes/routinesRoutes';
 import heightRoutes from './routes/heightRoutes';
 import weightRoutes from './routes/weightRoutes';
+import citiesRoutes from './routes/citiesRoutes';
 
 
 const app = express();
@@ -37,6 +38,7 @@ app.use('/diets', dietsRoutes);
 app.use('/routines', routinesRoutes);
 app.use('/height', heightRoutes);
 app.use('/weight', weightRoutes);
+app.use('/cities', citiesRoutes)
 
 
 app.listen(port, () => {

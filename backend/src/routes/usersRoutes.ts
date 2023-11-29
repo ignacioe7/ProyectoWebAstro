@@ -18,6 +18,14 @@ router.put('/:id', usersController.updateUser);
 // Route to delete a user
 router.delete('/:id', usersController.deleteUser);
 
+// Route to get all stats from a user by id
 router.get('/:id/yearlyStats', usersController.getYearlyStats);
+
+// Route to create a new user for registration
+router.post('/register', usersController.registerUser);
+
+// Route found an user for login
+router.post('/login', usersController.loginUser);
+
 
 export default router;

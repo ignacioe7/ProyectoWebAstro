@@ -1,4 +1,6 @@
 import express from "express";
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import db from "../db";
 
 // Fetch all users
@@ -7,7 +9,7 @@ export const getUsers = (
   response: express.Response
 ) => {
   const query = `
-  SELECT users.firstName, users.lastName, users.email, users.rut, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
+  SELECT users.firstName, users.lastName, users.email, users.rut, users.role, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
     FROM users
     LEFT JOIN diets ON users.id_diet = diets.id_diet
     LEFT JOIN routines ON users.id_routine = routines.id_routine 
@@ -47,6 +49,39 @@ export const getUser = (
   });
 };
 
+export const registerUser = async ( 
+  request: express.Request,
+  response: express.Response) => {
+
+  const userData = request.body;
+
+  // Encriptar la contraseña
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+  // Crear el usuario
+  const user = {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    email: userData.email,
+    rut: userData.rut,
+    dateOfBirth: userData.dateOfBirth,
+    password: hashedPassword,
+    id_diet: userData.id_diet,
+    id_routine: userData.id_routine,
+    id_city: userData.id_city,
+    role: "normal"
+  };
+
+  const query = 'INSERT INTO users SET ?';
+
+  db.query(query, user, (err, result) => {
+    if (err) throw err;
+    console.log('User inserted.');
+    return response.status(201).json({ message: 'Usuario registrado con éxito' });
+  });
+};
+
 // Add a new user
 export const addUser = (
   request: express.Request,
@@ -63,13 +98,32 @@ export const addUser = (
 };
 
 // Update an existing user
-export const updateUser = (
+export const updateUser = async(
   request: express.Request,
   response: express.Response
 ) => {
+
+  const userData = request.body;
+
+  // Encriptar la contraseña
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+  const user = {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    email: userData.email,
+    rut: userData.rut,
+    dateOfBirth: userData.dateOfBirth,
+    password: hashedPassword,
+    id_diet: userData.id_diet,
+    id_routine: userData.id_routine,
+    id_city: userData.id_city,
+  };
+
   db.query(
     "UPDATE users SET ? WHERE id_user = ?",
-    [request.body, request.params.id],
+    [user, request.params.id],
     (error, results) => {
       if (error) {
         console.error("Error executing query:", error);
@@ -100,6 +154,7 @@ export const deleteUser = (
   );
 };
 
+// Stats of user
 export const getYearlyStats = (
   request: express.Request,
   response: express.Response
@@ -207,4 +262,49 @@ export const getYearlyStats = (
       );
     });
   }
+};
+
+export const loginUser = async (
+  request: express.Request,
+  response: express.Response
+) => {
+
+  const userData= request.body;
+
+  const { email, password } = userData;
+
+  const user = {
+    email: userData.email,
+    password: userData.password,
+  };
+
+  const query = 'SELECT id_user, firstName, role, password FROM users WHERE email = ?';
+
+ db.query(query, [user.email], async (err, results) => {
+  if (err) throw err;
+
+  if (results.length > 0) {
+    const user = results[0];
+
+    const isValidPassword = await bcrypt.compare(password , user.password);
+
+    if (!isValidPassword) {
+      return response.status(400).json({ message: 'Email o contraseña incorrectos' });
+    }
+
+    const token = jwt.sign({ id: user.id_user }, 'your-secret-key', { expiresIn: '1h' });
+
+    return response.json({
+      token,
+      user: {
+        id_user: user.id_user,
+        firstName: user.firstName,
+        role: user.role
+      }
+    });
+  } else {
+    return response.status(400).json({ message: 'Usuario no encontrado' });
+  }
+});
+
 };
