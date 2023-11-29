@@ -3,9 +3,10 @@ type AuthResData = {
       expiresOn: number;
       token: string;
     };
-    usuario: {
+    user: {
+      id_user: number;
+      firstName: string;
       rol: string;
-      username: string;
     };
   };
   
@@ -13,9 +14,10 @@ type AuthResData = {
     logedIn: boolean;
     data?: {
       token: string;
-      usuario: {
+      user: {
+        id_user: number;
         rol: string;
-        username: string;
+        firstName: string;
       };
     };
   };
@@ -29,7 +31,7 @@ type AuthResData = {
       'auth',
       JSON.stringify({
         token: res.token,
-        usuario: res.usuario,
+        user: res.user,
       }),
     );
   };
@@ -52,7 +54,7 @@ type AuthResData = {
     if (date < new Date()) return undefined;
     return {
       token: auth.token.token,
-      usuario: auth.usuario,
+      user: auth.user,
     };
   };
   

@@ -57,7 +57,7 @@ export const getUser = (
   });
 };
 
-export const registerUser = async ( 
+export const registerUser = async (
   request: express.Request,
   response: express.Response) => {
 
@@ -127,7 +127,7 @@ export const addUser = async (
 };
 
 // Update an existing user
-export const updateUser = async(
+export const updateUser = async (
   request: express.Request,
   response: express.Response
 ) => {
@@ -299,7 +299,7 @@ export const loginUser = async (
   response: express.Response
 ) => {
 
-  const userData= request.body;
+  const userData = request.body;
 
   const { email, password } = userData;
 
@@ -310,35 +310,35 @@ export const loginUser = async (
 
   const query = 'SELECT id_user, firstName, role, password FROM users WHERE email = ?';
 
- db.query(query, [user.email], async (err, results) => {
-  if (err) throw err;
+  db.query(query, [user.email], async (err, results) => {
+    if (err) throw err;
 
-  if (results.length > 0) {
-    const user = results[0];
+    if (results.length > 0) {
+      const user = results[0];
 
-    const isValidPassword = await bcrypt.compare(password , user.password);
+      const isValidPassword = await bcrypt.compare(password, user.password);
 
-    if (!isValidPassword) {
-      return response.status(400).json({ message: 'Email o contraseña incorrectos' });
-    }
-
-    const token = jwt.sign({ id: user.id_user }, SECRET_KEY, { expiresIn: '1h' });
-
-    return response.json({
-      token: {
-        token,
-        expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
-      },
-      user: {
-        id_user: user.id_user,
-        firstName: user.firstName,
-        role: user.role
+      if (!isValidPassword) {
+        return response.status(400).json({ message: 'Email o contraseña incorrectos' });
       }
-    });
-  } else {
-    return response.status(400).json({ message: 'Usuario no encontrado' });
-  }
-});
+
+      const token = jwt.sign({ id: user.id_user }, SECRET_KEY, { expiresIn: '1h' });
+
+      return response.json({
+        token: {
+          token,
+          expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
+        },
+        user: {
+          id_user: user.id_user,
+          firstName: user.firstName,
+          role: user.role
+        }
+      });
+    } else {
+      return response.status(400).json({ message: 'Usuario no encontrado' });
+    }
+  });
 
 };
 

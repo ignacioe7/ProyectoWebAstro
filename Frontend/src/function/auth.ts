@@ -1,11 +1,11 @@
 import { getAuthLocalStorage, setAuthLocalStorage } from './localstorage';
 
-export const authLogin = async (username: string, password: string) => {
+export const authLogin = async (email: string, password: string) => {
   try {
-    const response = await fetch(`http://localhost:4500/auth/login`, {
+    const response = await fetch(`http://localhost:3000/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }),
     });
     if (!response.ok) return false;
     const data = await response.json();
@@ -18,18 +18,24 @@ export const authLogin = async (username: string, password: string) => {
 };
 
 export const authRegistro = async ({
-  username,
-  password,
+  firstName,
+  lastName,
+  rut,
+  dateOfBirth,
   email,
+  password,
 }: {
-  username: string;
-  password: string;
+  firstName: string;
+  lastName: string;
+  rut: string;
+  dateOfBirth: Date;
   email: string;
+  password: string;
 }) => {
-  const response = await fetch(`http://localhost:4500/auth/registro`, {
+  const response = await fetch(`http://localhost:3000/users/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username, password, email }),
+    body: JSON.stringify({ firstName, lastName, rut, dateOfBirth, email, password}),
   });
   const data = await response.json();
   return data;
@@ -41,7 +47,7 @@ export const fetchApi = async (
 ) => {
   const auth = getAuthLocalStorage();
   if (!auth) {
-    const response = await fetch(`http://localhost:4500${ruta}`, {
+    const response = await fetch(`http://localhost:3000${ruta}`, {
       method,
     });
     const data = await response.json();
@@ -49,7 +55,7 @@ export const fetchApi = async (
   }
   const date = new Date(auth.token.expiresOn);
   if (date < new Date()) throw new Error('Token expirado');
-  const response = await fetch(`http://localhost:4500${ruta}`, {
+  const response = await fetch(`http://localhost:3000${ruta}`, {
     method,
     headers: {
       Authorization: `Bearer ${auth.token.token}`,

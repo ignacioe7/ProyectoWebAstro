@@ -1,8 +1,11 @@
 ---
 import Layout2 from "../layouts/Layout2.astro";
 import TablaUsuarios from "../components/TablaUsuarios.tsx";
+import { getAuthLocalStorage } from "../function/localstorage";
+
 
 let isAdmin = true;
+
 ---
 
 <Layout2 title="admin page">

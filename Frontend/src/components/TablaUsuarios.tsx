@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { getAuthLocalStorage } from "../function/localstorage";
 
 type User = {
   id_user: number;

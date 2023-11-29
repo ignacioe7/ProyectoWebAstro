@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
+import type { SubmitHandler } from "react-hook-form";
 import React, { useState } from "react";
 import regiones from "../datos/regiones.json";
 import dietas from "../datos/dietas.json";
 import rutinas from "../datos/rutinas.json";
+import { authRegistro } from "../function/auth";
 
 function validarRut(rut: string) {
   // Eliminar puntos y guiones
@@ -35,56 +37,37 @@ function validarEdad(fecha: string) {
   return fechaNacimiento >= fechaMaxima && fechaNacimiento <= fechaMinima;
 }
 
-function Formulario() {
+type Inputs = {
+  firstName: string;
+  lastName: string;
+  rut: string;
+  dateOfBirth: Date;
+  email: string;
+  password: string;
+  id_diet: number;
+  id_routine: number;
+  id_city: number;
+}
+
+const Formulario = () => {
+
   const {
     register,
     handleSubmit,
-    getValues,
-    watch,
-    reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      rut: "",
-      dateOfBirth: "",
-      email: "",
-      region: "",
-      comuna: "",
-      diet: "",
-      routine: "",
-      height: "",
-      weight: "",
-      password: "",
-      repassword: "",
-      acceptTyC: false,
-    },
-  });
+  } = useForm<Inputs>()
+
   const [region, setRegion] = useState(null);
   const [comuna, setComuna] = useState(null);
   const [diet, setDiet] = useState(null);
   const [rotuine, setRoutine] = useState(null);
 
-  const validateAltura = (value: string) => {
-    // Convertir el valor con coma decimal a punto decimal
-    const numValue = parseFloat(value.replace(",", "."));
-    return (
-      (numValue >= 0.5 && numValue <= 2.5) ||
-      "Altura no válida, verifique que sea en metros\n ej:1.82"
-    );
-  };
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
+    return await authRegistro(data);
+  }
 
-  const validatePeso = (value: string) => {
-    // Convertir el valor con coma decimal a punto decimal
-    const numValue = parseFloat(value.replace(",", "."));
-    return (
-      (numValue >= 2.1 && numValue <= 635) ||
-      "Peso no válida, verifique que sea en kilogramos\n ej: 72,34"
-    );
-  };
-
-  function handleChangeRegion(e) {
+  /**
+   function handleChangeRegion(e) {
     const value = e.target.value;
     const regionEncontrada = regiones.find((r) => r.id === value);
     setRegion(regionEncontrada);
@@ -107,11 +90,42 @@ function Formulario() {
     const rutinaEncontrada = rutinas.find((rout) => rout.id === value);
     setRoutine(rutinaEncontrada);
   }
+   */
+  const [regions, setRegion] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [diets, setDiets] = useState([]);
+  const [routines, setRoutines] = useState([]);
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/cities')
+      .then(response => response.json())
+      .then(data => setCities(data));
+  }, []);
+
+  const handleChangeRegion = async (event) => {
+    const regionId = event.target.value;
+    const response = await fetch(`http://localhost:3000/cities/${regionId}`);
+    const data = await response.json();
+    setCities(data);
+  };
+
+  useEffect(() => {
+    fetch('http://localhost:3000/diets')
+      .then(response => response.json())
+      .then(data => setDiets(data));
+  }, []);
+
+  useEffect(() => {
+    fetch('http://localhost:3000/routines')
+      .then(response => response.json())
+      .then(data => setRoutines(data));
+  }, []);
 
   return (
     <form
-      onSubmit={handleSubmit((data) => {alert(`Este es el JSON que se enviará al backend: ${JSON.stringify(data, null, 2)}`); window.location.href="/perfilUsuario"})}
+      onSubmit={handleSubmit(onSubmit)} 
       className="max-w-4xl mx-auto p-4 bg-gray-300 shadow-md rounded-md"
+      method="POST"
     >
       <div className="flex flex-wrap -mx-3 mb-6 ">
         {/* Nombre Obligatorio */}
@@ -284,7 +298,7 @@ function Formulario() {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 py-2">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="regions"
+            htmlFor="region"
           >
             Región
           </label>
@@ -299,9 +313,9 @@ function Formulario() {
             onChange={handleChangeRegion}
           >
             <option value="">Seleccione una región</option>
-            {regiones.map((r) => (
-              <option key={r.id} value={r.id}>
-                {r.nombre}
+            {regions.map((region) => (
+              <option key={region.id} value={region.id}>
+                {region.nombre}
               </option>
             ))}
           </select>
@@ -314,7 +328,7 @@ function Formulario() {
         <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 py-2">
           <label
             className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="comuna"
+            htmlFor="city"
           >
             Comuna
           </label>
@@ -322,17 +336,16 @@ function Formulario() {
             className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
               errors.comuna && "bg-red-200 border-red-700"
             }`}
-            id="comuna"
-            {...register("comuna", { required: true })}
+            id="city"
+            {...register("city", { required: true })}
             onChange={handleChangeComuna}
           >
             <option value="">Seleccione una comuna</option>
-            {region &&
-              region.comunas.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
+            {cities.map(city => (
+          <option key={city.id} value={city.id}>
+            {city.name}
+          </option>
+          ))}
           </select>
           {errors.comuna && (
             <span className="text-red-600">Debe seleccionar una comuna</span>
@@ -358,9 +371,9 @@ function Formulario() {
             onChange={handleChangeDiet}
           >
             <option value="">Seleccione una dieta</option>
-            {dietas.map((d) => (
-              <option key={d.id} value={d.id} title={`${d.descripcion}`}>
-                {d.nombre}
+            {diets.map((diet) => (
+              <option key={diet.id} value={diet.id} title={`${diet.descripcion}`}>
+                {diet.nombre}
               </option>
             ))}
           </select>
@@ -390,66 +403,14 @@ function Formulario() {
             <option value="" title="tiene que elegir una opción">
               Seleccione una región
             </option>
-            {rutinas.map((rou) => (
-              <option key={rou.id} value={rou.id} title={`${rou.descripcion}`}>
-                {rou.nombre}
+            {routines.map((routine) => (
+              <option key={routine.id} value={routine.id} title={`${routine.descripcion}`}>
+                {routine.nombre}
               </option>
             ))}
           </select>
           {errors.routine && (
             <span className="text-red-600">Debe seleccionar una rutina</span>
-          )}
-        </div>
-
-        {/* Altura */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 py-2">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="height"
-          >
-            Altura [metros]
-          </label>
-          <input
-            className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
-              errors.height && "bg-red-200 border-red-700"
-            }`}
-            id="height"
-            type="number"
-            step="0.01"
-            placeholder="1,80"
-            {...register("height", {
-              required: "Altura es  obligatoria",
-              validate: validateAltura,
-            })}
-          />
-          {errors.height && (
-            <span className="text-red-600">{errors.height.message}</span>
-          )}
-        </div>
-
-        {/* Peso */}
-        <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0 py-2">
-          <label
-            className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-            htmlFor="weight"
-          >
-            Peso [kg]
-          </label>
-          <input
-            className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
-              errors.weight && "bg-red-200 border-red-700"
-            }`}
-            id="weight"
-            type="number"
-            step="0.01"
-            placeholder="70,35"
-            {...register("weight", {
-              required: "Peso es  obligatorio",
-              validate: validatePeso,
-            })}
-          />
-          {errors.weight && (
-            <span className="text-red-600">{errors.weight.message}</span>
           )}
         </div>
 
@@ -555,4 +516,5 @@ function Formulario() {
     </form>
   );
 }
+
 export default Formulario;

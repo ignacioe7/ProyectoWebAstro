@@ -1,6 +1,8 @@
 ---
 import ImagenPerfil from "../assets/logo.png"
 import Layout2 from "../layouts/Layout2.astro";
+import Peso from "../components/Peso.tsx"
+import Altura from "../components/Altura.tsx"
 ---
 
 
@@ -60,25 +62,10 @@ import Layout2 from "../layouts/Layout2.astro";
           </span>
         </div>
       </div>
-      <div class="h-32 rounded-lg bg-black-100"></div>
-      <div class="h-32 rounded-lg bg-black lg:col-span-2">
-        <div>
-          <h3 class="text-center text-white pt-8">Historial de rutinas hechas</h3>
-        </div>
-        <div class="p-8">
-          <span id="ProgressLabel" class="sr-only"></span>
-        </div>
+      <div class="grid grid-cols-1 gap-2 lg:grid-cols-2 lg:gap-8">
+        <Altura client:load></Altura>
+        <Peso client:load></Peso>
       </div>
-      <div class="h-32 rounded-lg bg-gray-100"></div>
-    </div>
-  </section>
-  <section class="px-4 py-12 mx-auto max-w-7xl">
-    <div class="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8">
-      <div class="h-32 rounded-lg bg-gray-100"></div>
-      <div class="h-32 rounded-lg bg-gray-100 lg:col-span-2"></div>
-      <div class="h-32 rounded-lg bg-gray-100"></div>
-    </div>
-  </section>
 </Layout2>
 
 <script src="../../node_modules/chart.js/dist/chart.umd.js"></script>
