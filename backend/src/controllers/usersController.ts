@@ -83,11 +83,32 @@ export const registerUser = async (
 };
 
 // Add a new user
-export const addUser = (
+export const addUser = async (
   request: express.Request,
   response: express.Response
 ) => {
-  db.query("INSERT INTO users SET ?", request.body, (error, results) => {
+
+  const userData = request.body;
+
+  // Encriptar la contraseña
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(userData.password, salt);
+
+  // Crear el usuario
+  const user = {
+    firstName: userData.firstName,
+    lastName: userData.lastName,
+    email: userData.email,
+    rut: userData.rut,
+    dateOfBirth: userData.dateOfBirth,
+    password: hashedPassword,
+    id_diet: userData.id_diet,
+    id_routine: userData.id_routine,
+    id_city: userData.id_city,
+    role: userData.role
+  };
+
+  db.query("INSERT INTO users SET ?", user, (error, results) => {
     if (error) {
       console.error("Error executing query:", error);
       response.status(500).json({ error: "Internal server error" });
