@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-10-2023 a las 23:45:27
+-- Tiempo de generación: 29-11-2023 a las 17:50:50
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -621,9 +621,8 @@ CREATE TABLE `users` (
   `lastName` varchar(30) DEFAULT NULL,
   `email` varchar(50) NOT NULL,
   `rut` char(10) NOT NULL,
-  `status` tinyint(1) NOT NULL,
   `dateOfBirth` date NOT NULL,
-  `password` varchar(32) NOT NULL,
+  `password` varchar(256) NOT NULL,
   `id_diet` int(10) UNSIGNED NOT NULL,
   `id_routine` int(10) UNSIGNED NOT NULL,
   `id_city` int(10) UNSIGNED NOT NULL,
@@ -634,12 +633,13 @@ CREATE TABLE `users` (
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `rut`, `status`, `dateOfBirth`, `password`, `id_diet`, `id_routine`, `id_city`, `role`) VALUES
-(1, 'Vicente', 'Herrera', 'vicensito@uwu.com', '20483861-5', 0, '2000-09-05', 'Vicentito123.', 1, 1, 82, 'admin'),
-(2, 'Dorian', 'Canales', 'dorian.canales.g@mail.pucv.cl', '20963471-6', 0, '2002-02-06', 'Dorian123.', 3, 2, 330, 'admin'),
-(3, 'Ignacio', 'Villalobos', 'nachobnb3llako@yahoo.cl', '20484286-8', 0, '2001-10-06', 'nachokpaza123A.', 5, 3, 45, 'admin'),
-(4, 'pepito', 'lopez', 'pepito@gmail.com', '12345678-9', 0, '2013-06-03', 'Pepito123.', 6, 4, 327, 'normal'),
-(5, 'pepita', NULL, 'pepa@gmail.com', '98765432-1', 0, '2004-12-16', '123Pepa.', 4, 5, 284, 'normal');
+INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `rut`, `dateOfBirth`, `password`, `id_diet`, `id_routine`, `id_city`, `role`) VALUES
+(1, 'Vicente', 'Herrera', 'vicensito@uwu.com', '20483861-5', '2000-09-05', '$2b$10$0bcXEyGAyqkAJf9eS6K0gOEpZo6iLun7KxWTBbJKbk4.DtjyXj.PW', 1, 1, 82, 'admin'),
+(2, 'Dorian', 'Canales', 'dorian.canales.g@mail.pucv.cl', '20963471-6', '2002-02-06', '$2b$10$O5tobk5eflzHB2z8iQIwFuPkyCRe5x1Tdj42wANfYezsF3VuaBxSa', 2, 2, 330, 'admin'),
+(3, 'Ignacio', 'Villalobos', 'nachobnb3llako@yahoo.cl', '20484286-8', '2001-10-06', '$2b$10$V2rxMaYMPRWyviPI/3xWxeRLJjBTxMGJvBLQKsAwhBW6g3SDhArSa', 4, 4, 78, 'admin'),
+(4, 'Pepito', 'Lopez', 'pepito@gmail.com', '12345678-9', '2013-06-13', '$2b$10$Svyl1j1zxJibVXiHLHz2ruQQp3ODcwRn254ma6Lae67lCROvwkcD.', 3, 3, 92, 'normal'),
+(5, 'Pepita', '', 'pepa@gmail.com', '11111111-1', '2014-02-21', '$2b$10$NFV5S4FUtDMV.CUqN13VR.5/OcajJ1OWMCYygL4ONUxjCYgF6fznG', 5, 5, 67, 'normal'),
+(6, 'Bernardo', 'O\'Higgins', 'fundador@chile.cl', '00000001-1', '1818-02-12', '$2b$10$yi4r..WdPd9.lGaDRJjJHuUkkkUUDr1gHnByyvyxQTp88WysZnZZa', 3, 4, 107, 'normal');
 
 -- --------------------------------------------------------
 
@@ -801,7 +801,7 @@ ALTER TABLE `routines`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
