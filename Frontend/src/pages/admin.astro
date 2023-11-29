@@ -1,16 +1,19 @@
 ---
-import Layout2 from "../layouts/Layout2.astro"
-import  TablaUsuarios  from '../components/TablaUsuarios.tsx'
+import Layout2 from "../layouts/Layout2.astro";
+import TablaUsuarios from "../components/TablaUsuarios.tsx";
 
-let isAdmin = true; 
+let isAdmin = true;
 ---
 
 <Layout2 title="admin page">
   <div class="text-white">
-  {isAdmin ? (
-    <TablaUsuarios />
-  ) : (
-    <p>No tienes permisos para ver esta página.</p>
-  )}
+    {
+      isAdmin ? (
+        <TablaUsuarios client:load/>
+      ) : (
+        <p>No tienes permisos para ver esta página.</p>
+      )
+    }
+
   </div>
 </Layout2>

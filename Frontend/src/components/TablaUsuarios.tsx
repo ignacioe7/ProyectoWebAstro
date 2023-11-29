@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
-function TablaUsuarios() {
-  const [usuarios, setUsers] = useState<{ id_user: number, firstName: string, email: string }[]>([
-    { id_user: 1, firstName: 'Prueba', email: 'prueba@example.com' },
-    // Agrega aquí más usuarios de prueba si necesitas
-  ]);
+const UserTable: React.FC = () => {
+  const [users, setUsers] = useState([]);
+
   useEffect(() => {
-    fetch('http://localhost:3000/users')
-      .then(response => response.json())
-      .then(data => setUsers(data))
-      .catch(error => console.error('Error:', error));
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/users');
+        setUsers(response.data);
+      } catch (error) {
+        console.error('Error al obtener los usuarios:', error);
+      }
+    };
+
+    fetchUsers();
   }, []);
 
   return (
@@ -18,22 +23,22 @@ function TablaUsuarios() {
         <tr>
           <th>ID</th>
           <th>Nombre</th>
+          <th>Apellido</th>
           <th>Email</th>
-          {/* Agrega aquí más columnas si necesitas */}
         </tr>
       </thead>
       <tbody>
-        {usuarios.map(usuario => (
-          <tr key={usuario.id_user}>
-            <td>{usuario.id_user}</td>
-            <td>{usuario.firstName}</td>
-            <td>{usuario.email}</td>
-            {/* Agrega aquí más celdas si necesitas */}
+        {users.map((user: any) => (
+          <tr key={user.id_user}>
+            <td>{user.id_user}</td>
+            <td>{user.firstName}</td>
+            <td>{user.lastName}</td>
+            <td>{user.email}</td>
           </tr>
         ))}
       </tbody>
     </table>
   );
-}
+};
 
-export default TablaUsuarios;
+export default UserTable;

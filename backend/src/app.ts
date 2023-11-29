@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import mysql from 'mysql';
 import usersRoutes from './routes/usersRoutes';
 import dietsRoutes from './routes/dietsRoutes';
@@ -6,6 +7,9 @@ import routinesRoutes from './routes/routinesRoutes';
 
 const app = express();
 const port = 3000;
+
+
+app.use(cors());
 
 const db = mysql.createConnection({
   host: 'localhost',
@@ -22,17 +26,15 @@ db.connect(error => {
   console.log('Successfully connected to the database.');
 });
 
-// Middleware to parse JSON bodies
+
 app.use(express.json());
 
-// Register routes
+
 app.use('/users', usersRoutes);
 app.use('/diets', dietsRoutes);
 app.use('/routines', routinesRoutes);
 
-// Start the server
+
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
-
-export default app;
