@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2023 a las 17:50:50
+-- Tiempo de generación: 29-11-2023 a las 21:24:10
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -523,10 +523,8 @@ CREATE TABLE `height` (
 
 INSERT INTO `height` (`id_user`, `height`, `date`) VALUES
 (4, 1.75, '2017-07-19'),
-(5, 1.77, '2019-07-20'),
 (4, 1.80, '2020-01-01'),
-(4, 1.84, '2023-10-20'),
-(5, 1.78, '2023-09-11');
+(4, 1.84, '2023-10-20');
 
 -- --------------------------------------------------------
 
@@ -637,9 +635,7 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `rut`, `dateOf
 (1, 'Vicente', 'Herrera', 'vicensito@uwu.com', '20483861-5', '2000-09-05', '$2b$10$0bcXEyGAyqkAJf9eS6K0gOEpZo6iLun7KxWTBbJKbk4.DtjyXj.PW', 1, 1, 82, 'admin'),
 (2, 'Dorian', 'Canales', 'dorian.canales.g@mail.pucv.cl', '20963471-6', '2002-02-06', '$2b$10$O5tobk5eflzHB2z8iQIwFuPkyCRe5x1Tdj42wANfYezsF3VuaBxSa', 2, 2, 330, 'admin'),
 (3, 'Ignacio', 'Villalobos', 'nachobnb3llako@yahoo.cl', '20484286-8', '2001-10-06', '$2b$10$V2rxMaYMPRWyviPI/3xWxeRLJjBTxMGJvBLQKsAwhBW6g3SDhArSa', 4, 4, 78, 'admin'),
-(4, 'Pepito', 'Lopez', 'pepito@gmail.com', '12345678-9', '2013-06-13', '$2b$10$Svyl1j1zxJibVXiHLHz2ruQQp3ODcwRn254ma6Lae67lCROvwkcD.', 3, 3, 92, 'normal'),
-(5, 'Pepita', '', 'pepa@gmail.com', '11111111-1', '2014-02-21', '$2b$10$NFV5S4FUtDMV.CUqN13VR.5/OcajJ1OWMCYygL4ONUxjCYgF6fznG', 5, 5, 67, 'normal'),
-(6, 'Bernardo', 'O\'Higgins', 'fundador@chile.cl', '00000001-1', '1818-02-12', '$2b$10$yi4r..WdPd9.lGaDRJjJHuUkkkUUDr1gHnByyvyxQTp88WysZnZZa', 3, 4, 107, 'normal');
+(4, 'Pepito', 'Lopez', 'pepito@gmail.com', '12345678-9', '2013-06-13', '$2b$10$Svyl1j1zxJibVXiHLHz2ruQQp3ODcwRn254ma6Lae67lCROvwkcD.', 3, 3, 92, 'normal');
 
 -- --------------------------------------------------------
 
@@ -661,9 +657,7 @@ INSERT INTO `weight` (`id_user`, `weight`, `date`) VALUES
 (4, 70.00, '2023-10-01'),
 (4, 70.20, '2023-10-02'),
 (4, 80.00, '2023-10-04'),
-(4, 90.00, '2023-10-20'),
-(5, 65.92, '2023-10-17'),
-(5, 68.00, '2023-10-19');
+(4, 90.00, '2023-10-20');
 
 --
 -- Índices para tablas volcadas
@@ -825,7 +819,7 @@ ALTER TABLE `diets_foods`
 -- Filtros para la tabla `height`
 --
 ALTER TABLE `height`
-  ADD CONSTRAINT `height_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+  ADD CONSTRAINT `height_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `regions`
@@ -854,7 +848,7 @@ ALTER TABLE `users`
 -- Filtros para la tabla `weight`
 --
 ALTER TABLE `weight`
-  ADD CONSTRAINT `weight_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`);
+  ADD CONSTRAINT `weight_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `users` (`id_user`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
