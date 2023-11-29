@@ -1,7 +1,15 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import db from "../db";
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const SECRET_KEY = process.env.TOKEN ?? 'secretkey';
+export interface CustomRequest extends Request {
+  token: { firstName: string; role: string };
+}
 
 // Fetch all users
 export const getUsers = (
@@ -9,7 +17,7 @@ export const getUsers = (
   response: express.Response
 ) => {
   const query = `
-  SELECT users.firstName, users.lastName, users.email, users.rut, users.role, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
+  SELECT users.id_user, users.firstName, users.lastName, users.email, users.rut, users.role, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
     FROM users
     LEFT JOIN diets ON users.id_diet = diets.id_diet
     LEFT JOIN routines ON users.id_routine = routines.id_routine 
@@ -32,7 +40,7 @@ export const getUser = (
   response: express.Response
 ) => {
   const query = `
-    SELECT users.firstName, users.lastName, users.email, users.rut, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
+    SELECT users.id_user, users.firstName, users.lastName, users.email, users.rut, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
     FROM users
     LEFT JOIN diets ON users.id_diet = diets.id_diet
     LEFT JOIN routines ON users.id_routine = routines.id_routine
@@ -285,6 +293,7 @@ export const getYearlyStats = (
   }
 };
 
+// Login user 
 export const loginUser = async (
   request: express.Request,
   response: express.Response
@@ -313,10 +322,13 @@ export const loginUser = async (
       return response.status(400).json({ message: 'Email o contraseña incorrectos' });
     }
 
-    const token = jwt.sign({ id: user.id_user }, 'your-secret-key', { expiresIn: '1h' });
+    const token = jwt.sign({ id: user.id_user }, SECRET_KEY, { expiresIn: '1h' });
 
     return response.json({
-      token,
+      token: {
+        token,
+        expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
+      },
       user: {
         id_user: user.id_user,
         firstName: user.firstName,
@@ -329,3 +341,4 @@ export const loginUser = async (
 });
 
 };
+
