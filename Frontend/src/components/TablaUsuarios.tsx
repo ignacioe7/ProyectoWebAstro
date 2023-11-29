@@ -36,7 +36,7 @@ const UserTable: React.FC = () => {
             <td>{user.email}</td>
             <td><span onClick={() => {
               //eliminarUsuario(user.id_user);
-            </td>}}>Eliminar</span></td>
+            }}>Eliminar</span></td>
           </tr>
         ))}
       </tbody>
