@@ -1,12 +1,13 @@
 import express, { NextFunction, Request, Response } from "express";
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
+import jwt from "jsonwebtoken";
+import bcrypt from "bcrypt";
 import db from "../db";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
+import axios from "axios";
 
 dotenv.config();
 
-const SECRET_KEY = process.env.TOKEN ?? 'secretkey';
+const SECRET_KEY = process.env.TOKEN ?? "secretkey";
 export interface CustomRequest extends Request {
   token: { firstName: string; role: string };
 }
@@ -59,8 +60,8 @@ export const getUser = (
 
 export const registerUser = async (
   request: express.Request,
-  response: express.Response) => {
-
+  response: express.Response
+) => {
   const userData = request.body;
 
   // Encriptar la contraseña
@@ -78,15 +79,17 @@ export const registerUser = async (
     id_diet: userData.id_diet,
     id_routine: userData.id_routine,
     id_city: userData.id_city,
-    role: "normal"
+    role: "normal",
   };
 
-  const query = 'INSERT INTO users SET ?';
+  const query = "INSERT INTO users SET ?";
 
   db.query(query, user, (err, result) => {
     if (err) throw err;
-    console.log('User inserted.');
-    return response.status(201).json({ message: 'Usuario registrado con éxito' });
+    console.log("User inserted.");
+    return response
+      .status(201)
+      .json({ message: "Usuario registrado con éxito" });
   });
 };
 
@@ -95,7 +98,6 @@ export const addUser = async (
   request: express.Request,
   response: express.Response
 ) => {
-
   const userData = request.body;
 
   // Encriptar la contraseña
@@ -113,7 +115,7 @@ export const addUser = async (
     id_diet: userData.id_diet,
     id_routine: userData.id_routine,
     id_city: userData.id_city,
-    role: userData.role
+    role: userData.role,
   };
 
   db.query("INSERT INTO users SET ?", user, (error, results) => {
@@ -131,7 +133,6 @@ export const updateUser = async (
   request: express.Request,
   response: express.Response
 ) => {
-
   const userData = request.body;
 
   // Encriptar la contraseña
@@ -252,7 +253,9 @@ export const getYearlyStats = (
           // Calcula el peso medio
           let averageWeight: number | null = null;
           if (weightResults[0].averageWeight) {
-            averageWeight = parseFloat(weightResults[0].averageWeight.toFixed(2));
+            averageWeight = parseFloat(
+              weightResults[0].averageWeight.toFixed(2)
+            );
             lastWeight = averageWeight;
           } else if (lastWeight) {
             averageWeight = lastWeight;
@@ -293,52 +296,81 @@ export const getYearlyStats = (
   }
 };
 
-// Login user 
+// Login user
 export const loginUser = async (
   request: express.Request,
   response: express.Response
 ) => {
-
   const userData = request.body;
-
-  const { email, password } = userData;
 
   const user = {
     email: userData.email,
     password: userData.password,
   };
 
-  const query = 'SELECT id_user, firstName, role, password FROM users WHERE email = ?';
+  const { email, password } = userData;
 
-  db.query(query, [user.email], async (err, results) => {
-    if (err) throw err;
+  if (userData.loginAttempts >= 2 && userData.captchaValue == null) {
+    return response.status(400).json({ message: "COMPLETA EL CAPTCHA" });
+  }
 
-    if (results.length > 0) {
-      const user = results[0];
-
-      const isValidPassword = await bcrypt.compare(password, user.password);
-
-      if (!isValidPassword) {
-        return response.status(400).json({ message: 'Email o contraseña incorrectos' });
-      }
-
-      const token = jwt.sign({ id: user.id_user }, SECRET_KEY, { expiresIn: '1h' });
-
-      return response.json({
-        token: {
-          token,
-          expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
-        },
-        user: {
-          id_user: user.id_user,
-          firstName: user.firstName,
-          role: user.role
+  if (userData.loginAttempts >= 2) {
+    try {
+      const verification = await axios.post(
+        "https://www.google.com/recaptcha/api/siteverify",
+        null,
+        {
+          params: {
+            secret: process.env.RECAPTCHA_SECRET_KEY,
+            response: userData.captchaValue,
+          },
         }
-      });
-    } else {
-      return response.status(400).json({ message: 'Usuario no encontrado' });
+      );
+
+      if (!verification.data.success) {
+        return response
+          .status(400)
+          .json({ message: "reCAPTCHA INCORRECTO" });
+      }
+    } catch (error) {
+      return response.status(400).json({ message: "ERROR CON EL SERVIDOR" });
     }
-  });
 
+    const query =
+      "SELECT id_user, firstName, role, password FROM users WHERE email = ?";
+
+    db.query(query, [user.email], async (err, results) => {
+      if (err) throw err;
+
+      if (results.length > 0) {
+        const user = results[0];
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if (!isValidPassword) {
+          return response
+            .status(400)
+            .json({ message: "Email o contraseña incorrectos" });
+        }
+
+        const token = jwt.sign({ id: user.id_user }, SECRET_KEY, {
+          expiresIn: "1h",
+        });
+
+        return response.json({
+          token: {
+            token,
+            expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
+          },
+          user: {
+            id_user: user.id_user,
+            firstName: user.firstName,
+            role: user.role,
+          },
+        });
+      } else {
+        return response.status(400).json({ message: "Usuario no encontrado" });
+      }
+    });
+  }
 };
-

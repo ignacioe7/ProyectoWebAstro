@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
 import { useState } from "react";
 import { authLogin } from "../function/auth";
+import ReCAPTCHA from "react-google-recaptcha";
+import { getAuthLocalStorage } from "../function/localstorage";
 
 type Inputs = {
   email: string;
@@ -15,21 +17,40 @@ const Inicio = () => {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const [loginAttempts, setLoginAttempts] = useState(0);
+  const [showCaptcha, setShowCaptcha] = useState(false);
+  const [captchaError, setCaptchaError] = useState(null);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const handleCaptchaChange = (value: string | null) => {
+    setCaptchaValue(value);
+  };
   const [authError, setAuthError] = useState({
     error: false,
     message: "",
   });
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const logedIn = await authLogin(data.email, data.password);
+    try {
+      const loggedIn = await authLogin(data.email, data.password, captchaValue, loginAttempts);
+  
+      if ((loggedIn && loginAttempts < 3 && captchaValue === null) || ( (loggedIn && captchaValue !== null && loginAttempts >= 3))) {
+        alert('Bienvenido '+ getAuthLocalStorage()?.user.firstName + 'Usted es un usuario '+ getAuthLocalStorage()?.user.role);
+        window.location.href = "/";
+      }
+    } catch (error: unknown) {
+      setLoginAttempts(loginAttempts + 1);
+  
+      if (loginAttempts >= 2) {
+        setShowCaptcha(true);
+      }
+      if (error instanceof Error) {
+        setAuthError({
+          error: true,
+          message: error.message,
+        });
     
-    if (logedIn) {
-      window.location.href = "/";
-    } else {
-      setAuthError({
-        error: true,
-        message: "Usuario o contraseña incorrectos",
-      });
+        alert(error.message);
+      }
     }
   };
 
@@ -74,9 +95,15 @@ const Inicio = () => {
           {errors.password && <span className="text-red-600">Este campo es obligatorio</span>}
         </div>
       </div>
-
-
-      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center">
+      {showCaptcha && (
+        <ReCAPTCHA
+          sitekey="6LeI3SEpAAAAAAIfKHFrkZKeB1Wk6PbSRkvLAlHT"
+          onChange={handleCaptchaChange} 
+        />
+      )}
+      <button 
+        type="submit"
+        className="g-recaptcha bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex justify-center">
         Enviar
       </button>
     </form>

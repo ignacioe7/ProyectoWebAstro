@@ -27,7 +27,5 @@ router.post('/register', usersController.registerUser);
 // Route found an user for login
 router.post('/login', usersController.loginUser);
 
-router.post('')
-
 
 export default router;

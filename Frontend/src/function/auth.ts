@@ -1,20 +1,26 @@
 import { getAuthLocalStorage, setAuthLocalStorage } from './localstorage';
 
-export const authLogin = async (email: string, password: string) => {
+export const authLogin = async (email: string, password: string, captchaValue: string | null, loginAttempts: number) => {
   try {
     const response = await fetch(`http://localhost:3000/users/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ email, password, captchaValue, loginAttempts}),
     });
-    if (!response.ok) return false;
+                
+    if (!response.ok) {
+      const data = await response.json();
+      console.log(data.message);
+      throw new Error(data.message);
+    }
+
     const data = await response.json();
-    setAuthLocalStorage(data);
+    localStorage.setItem('auth', JSON.stringify(data));
     return true;
   } catch (error) {
     console.error(error);
+    throw error;
   }
-  return false;
 };
 
 export const authRegistro = async ({
