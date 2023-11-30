@@ -6,7 +6,7 @@ type AuthResData = {
     user: {
       id_user: number;
       firstName: string;
-      rol: string;
+      role: string;
     };
   };
   
@@ -16,7 +16,7 @@ type AuthResData = {
       token: string;
       user: {
         id_user: number;
-        rol: string;
+        role: string;
         firstName: string;
       };
     };
