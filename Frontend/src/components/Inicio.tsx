@@ -3,7 +3,6 @@ import type { SubmitHandler } from "react-hook-form";
 import React, { useState } from "react";
 import { authLogin, verifyRecaptcha } from "../function/auth";
 import ReCAPTCHA from "react-google-recaptcha";
-import { getAuthLocalStorage } from "../function/localstorage";
 
 type Inputs = {
   email: string;
@@ -16,11 +15,7 @@ const Inicio = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
-
-  const [authError, setAuthError] = useState({
-    error: false,
-    message: "",
-  });
+ 
 
   const [loginAttempts, setLoginAttempts] = useState(0);
   const recaptchaRef = React.createRef<ReCAPTCHA>();
@@ -42,6 +37,9 @@ const Inicio = () => {
         if (token) {
           alert("Inicio de sesion exitoso");
           window.location.href = "/";
+        }else{
+          alert("Por favor, verifica que no eres un robot.");
+          return;
         }
       } else {
         alert("Usuario o contraseña incorrectos");
@@ -123,25 +121,3 @@ const Inicio = () => {
 };
 
 export default Inicio;
-
-// res.status -> codigo HTTP de la respuesta -> 200 OK
-// res.data -> Datos que devuelve la API
-// if (res.status === 200) -> Quiere decir que hubo exito
-
-// DESDE EL BACKEND
-//res.status(200).json({
-//  token, rol, correo, rut
-//})
-
-//res.status(401).json({
-//  error: 'no se pudo'
-//})
-
-// DESDE EL FRONTEND
-
-//if (res.status === 200) {
-// inicio de sesion exitoso
-//  alert('Inicio de sesion exitoso')
-//} else if (res.status === 401) {
-//  alert('Hubo un error al autenticar')
-//}
