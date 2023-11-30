@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import React, { useState } from "react";
-import regiones from "../datos/regiones.json";
-import dietas from "../datos/dietas.json";
-import rutinas from "../datos/rutinas.json";
+import React, { useState, useEffect} from "react";
 import { authRegistro } from "../function/auth";
 
 function validarRut(rut: string) {
@@ -37,6 +34,30 @@ function validarEdad(fecha: string) {
   return fechaNacimiento >= fechaMaxima && fechaNacimiento <= fechaMinima;
 }
 
+
+type Region = {
+  id_region: number;
+  name: string;
+};
+
+type City = {
+  id_city: number;
+  name: string;
+};
+
+type Diet = {
+  id_diet: number;
+  name: string;
+  description: string;
+};
+
+type Routine = {
+  id_routine: number;
+  name: string;
+  description: string;
+};
+
+
 type Inputs = {
   firstName: string;
   lastName: string;
@@ -47,6 +68,12 @@ type Inputs = {
   id_diet: number;
   id_routine: number;
   id_city: number;
+  region: string;
+  city: string;
+  diet: string;
+  routine: string;
+  repassword: string;
+  acceptTyC: boolean;
 }
 
 const Formulario = () => {
@@ -54,59 +81,67 @@ const Formulario = () => {
   const {
     register,
     handleSubmit,
+    watch,
+    getValues,
     formState: { errors },
   } = useForm<Inputs>()
 
-  const [region, setRegion] = useState(null);
-  const [comuna, setComuna] = useState(null);
-  const [diet, setDiet] = useState(null);
-  const [rotuine, setRoutine] = useState(null);
-
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    return await authRegistro(data);
+    const {region, city, diet, routine, repassword, acceptTyC, ...rest} = data;
+    data.id_city = parseInt(selectedCity);
+    data.id_diet = parseInt(selectedDiet);
+    data.id_routine = parseInt(selectedRoutine);
+    const register = await authRegistro(data);
+    if(register){
+      alert("Usuario creado correctamente, ahora puede iniciar sesión");
+      window.location.href = "/";
+    }
   }
 
-  /**
-   function handleChangeRegion(e) {
-    const value = e.target.value;
-    const regionEncontrada = regiones.find((r) => r.id === value);
-    setRegion(regionEncontrada);
-    setComuna(null);
-  }
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [diets, setDiets] = useState<Diet[]>([]);
+  const [routines, setRoutines] = useState<Routine[]>([]);
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedDiet, setSelectedDiet] = useState<string>('');
+  const [selectedRoutine, setSelectedRoutine] = useState<string>('');
 
-  function handleChangeComuna(e) {
-    const value = e.target.value;
-    setComuna(value);
-  }
 
-  function handleChangeDiet(e) {
-    const value = e.target.value;
-    const dietaEncontrada = dietas.find((d) => d.id === value);
-    setDiet(dietaEncontrada);
-  }
+  const fetchRegions = async () => {
+    const response = await fetch('http://localhost:3000/cities');
+    const data = await response.json();
+    setRegions(data);
+  };
 
-  function handleChangeRotuine(e) {
-    const value = e.target.value;
-    const rutinaEncontrada = rutinas.find((rout) => rout.id === value);
-    setRoutine(rutinaEncontrada);
-  }
-   */
-  const [regions, setRegion] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [diets, setDiets] = useState([]);
-  const [routines, setRoutines] = useState([]);
-  
   useEffect(() => {
-    fetch('http://localhost:3000/cities')
-      .then(response => response.json())
-      .then(data => setCities(data));
+    fetchRegions();
   }, []);
 
-  const handleChangeRegion = async (event) => {
+  const handleChangeRegion = async (event: React.ChangeEvent<HTMLSelectElement>) => {
     const regionId = event.target.value;
+    setSelectedRegion(regionId);
     const response = await fetch(`http://localhost:3000/cities/${regionId}`);
     const data = await response.json();
     setCities(data);
+  };
+
+  const handleChangeCity = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const cityId = event.target.value;
+    console.log(cityId);
+    setSelectedCity(cityId);
+  };
+
+  const handleChangeDiet = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const dietId = event.target.value;
+    console.log(dietId);
+    setSelectedDiet(dietId);
+  };
+
+  const handleChangeRotuine = async (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const routineId = event.target.value;
+    console.log(routineId);
+    setSelectedRoutine(routineId);
   };
 
   useEffect(() => {
@@ -255,7 +290,7 @@ const Formulario = () => {
                 message: "Fecha de nacimiento obligatorio",
               },
               validate: (value) =>
-                validarEdad(value) ||
+                validarEdad(value.toString()) ||
                 "La edad debe ser mayor a 6 años y menor de 70 años",
             })}
           />
@@ -306,7 +341,7 @@ const Formulario = () => {
             className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
               errors.region && "bg-red-200 border-red-700"
             }`}
-            id="region"
+            value={selectedRegion}
             {...register("region", {
               required: true,
             })}
@@ -314,8 +349,8 @@ const Formulario = () => {
           >
             <option value="">Seleccione una región</option>
             {regions.map((region) => (
-              <option key={region.id} value={region.id}>
-                {region.nombre}
+              <option key={region.id_region} value={region.id_region}>
+                {region.name}
               </option>
             ))}
           </select>
@@ -334,20 +369,20 @@ const Formulario = () => {
           </label>
           <select
             className={`appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500 ${
-              errors.comuna && "bg-red-200 border-red-700"
+              errors.city && "bg-red-200 border-red-700"
             }`}
             id="city"
             {...register("city", { required: true })}
-            onChange={handleChangeComuna}
+            onChange={handleChangeCity}
           >
             <option value="">Seleccione una comuna</option>
             {cities.map(city => (
-          <option key={city.id} value={city.id}>
+          <option key={city.id_city} value={city.id_city}>
             {city.name}
           </option>
           ))}
           </select>
-          {errors.comuna && (
+          {errors.city && (
             <span className="text-red-600">Debe seleccionar una comuna</span>
           )}
         </div>
@@ -372,8 +407,8 @@ const Formulario = () => {
           >
             <option value="">Seleccione una dieta</option>
             {diets.map((diet) => (
-              <option key={diet.id} value={diet.id} title={`${diet.descripcion}`}>
-                {diet.nombre}
+              <option key={diet.id_diet} value={diet.id_diet} title={`${diet.description}`}>
+                {diet.name}
               </option>
             ))}
           </select>
@@ -404,10 +439,11 @@ const Formulario = () => {
               Seleccione una región
             </option>
             {routines.map((routine) => (
-              <option key={routine.id} value={routine.id} title={`${routine.descripcion}`}>
-                {routine.nombre}
+              <option key={routine.id_routine} value={routine.id_routine} title={`${routine.description}`}>
+                {routine.name}
               </option>
             ))}
+            
           </select>
           {errors.routine && (
             <span className="text-red-600">Debe seleccionar una rutina</span>
@@ -484,7 +520,6 @@ const Formulario = () => {
         <div className="!important:flex w-full md:w-1/2 px-3 mb-6 md:mb-0 py-2">
           <input
             type="checkbox"
-            name="acceptTyC"
             className="bg-gray-50 border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded"
             {...register("acceptTyC", {
               required: {

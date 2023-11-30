@@ -6,10 +6,18 @@ import {
     Typography,
     Button,
 } from "@material-tailwind/react";
-import React from "react";
+import React, { useState, useEffect} from "react";
 
+type Diet = {
+    id_image: number;
+    name: string;
+    description: string;
+    image: string;
+};
 
 export function CardDefault() {
+    const [diets, setDiets] = useState<Diet[]>([]);
+
     return (
         <div className="grid justify-items-center grid-cols-1 gap-10 mx-auto lg:grid-cols-2">
             <Card className="mt-6 w-96">

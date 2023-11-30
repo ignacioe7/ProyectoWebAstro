@@ -20,25 +20,37 @@ export const authLogin = async (email: string, password: string) => {
 export const authRegistro = async ({
   firstName,
   lastName,
+  email,
   rut,
   dateOfBirth,
-  email,
   password,
+  id_diet,
+  id_routine,
+  id_city
 }: {
   firstName: string;
   lastName: string;
+  email: string;
   rut: string;
   dateOfBirth: Date;
-  email: string;
   password: string;
+  id_diet: number;
+  id_routine: number;
+  id_city: number;
 }) => {
-  const response = await fetch(`http://localhost:3000/users/register`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ firstName, lastName, rut, dateOfBirth, email, password}),
-  });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(`http://localhost:3000/users/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName, lastName, email, rut, dateOfBirth, password, id_diet, id_routine, id_city }),
+    });
+    if (!response.ok) return false;
+    const data = await response.json();
+    return true;
+  } catch (error) {
+    console.error(error);
+  }
+  return false;
 };
 
 export const fetchApi = async (
