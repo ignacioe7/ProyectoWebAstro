@@ -27,5 +27,7 @@ router.post('/register', usersController.registerUser);
 // Route found an user for login
 router.post('/login', usersController.loginUser);
 
+// Route to verify a recaptcha
+router.post('/verifyRecaptcha', usersController.verifyRecaptcha)
 
 export default router;

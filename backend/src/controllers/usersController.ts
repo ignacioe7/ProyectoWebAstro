@@ -302,75 +302,75 @@ export const loginUser = async (
   response: express.Response
 ) => {
   const userData = request.body;
-
   const user = {
     email: userData.email,
     password: userData.password,
   };
 
   const { email, password } = userData;
+  const query =
+    "SELECT id_user, firstName, role, password FROM users WHERE email = ?";
 
-  if (userData.loginAttempts >= 2 && userData.captchaValue == null) {
-    return response.status(400).json({ message: "COMPLETA EL CAPTCHA" });
-  }
+  db.query(query, [user.email], async (err, results) => {
+    if (err) throw err;
 
-  if (userData.loginAttempts >= 2) {
-    try {
-      const verification = await axios.post(
-        "https://www.google.com/recaptcha/api/siteverify",
-        null,
-        {
-          params: {
-            secret: process.env.RECAPTCHA_SECRET_KEY,
-            response: userData.captchaValue,
-          },
-        }
-      );
+    if (results.length > 0) {
+      const user = results[0];
 
-      if (!verification.data.success) {
+      const isValidPassword = await bcrypt.compare(password, user.password);
+
+      if (!isValidPassword) {
         return response
           .status(400)
-          .json({ message: "reCAPTCHA INCORRECTO" });
+          .json({ message: "Email o contraseña incorrectos" });
       }
-    } catch (error) {
-      return response.status(400).json({ message: "ERROR CON EL SERVIDOR" });
+
+      const token = jwt.sign({ id: user.id_user }, SECRET_KEY, {
+        expiresIn: "1h",
+      });
+
+      return response.json({
+        token: {
+          token,
+          expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
+        },
+        user: {
+          id_user: user.id_user,
+          firstName: user.firstName,
+          role: user.role,
+        },
+      });
+    } else {
+      return response.status(400).json({ message: "Usuario no encontrado" });
     }
-
-    const query =
-      "SELECT id_user, firstName, role, password FROM users WHERE email = ?";
-
-    db.query(query, [user.email], async (err, results) => {
-      if (err) throw err;
-
-      if (results.length > 0) {
-        const user = results[0];
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-
-        if (!isValidPassword) {
-          return response
-            .status(400)
-            .json({ message: "Email o contraseña incorrectos" });
-        }
-
-        const token = jwt.sign({ id: user.id_user }, SECRET_KEY, {
-          expiresIn: "1h",
-        });
-
-        return response.json({
-          token: {
-            token,
-            expiresOn: new Date(Date.now() + 1 * 60 * 60 * 1000).getTime(),
-          },
-          user: {
-            id_user: user.id_user,
-            firstName: user.firstName,
-            role: user.role,
-          },
-        });
-      } else {
-        return response.status(400).json({ message: "Usuario no encontrado" });
-      }
-    });
-  }
+  });
 };
+
+// Verify recaptcha
+export const verifyRecaptcha = async (
+  request: express.Request,
+  response: express.Response
+) => {
+  const { recaptchaValue } = request.body;
+
+  try {
+    const verification = await axios.post(
+      "https://www.google.com/recaptcha/api/siteverify",
+      null,
+      {
+        params: {
+          secret: process.env.RECAPTCHA_SECRET_KEY,
+          response: request.body.captchaValue,
+        },
+      }
+      );
+    if (verification.data.success) {
+      return response.status(200).json({ message: "Captcha verificado" });
+    } else {
+      return response.status(400).json({ message: "Captcha no verificado" });
+    }
+  } catch (error) {
+    console.error(error);
+    return response.status(500).json({ message: "Error interno" });
+  }
+}
