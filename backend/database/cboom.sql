@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 29-11-2023 a las 21:24:10
+-- Tiempo de generación: 30-11-2023 a las 03:00:07
 -- Versión del servidor: 10.4.28-MariaDB
 -- Versión de PHP: 8.2.4
 
@@ -413,20 +413,21 @@ INSERT INTO `countries` (`id_country`, `name`) VALUES
 CREATE TABLE `diets` (
   `id_diet` int(10) UNSIGNED NOT NULL,
   `name` varchar(30) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` text DEFAULT NULL,
+  `url` varchar(2048) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `diets`
 --
 
-INSERT INTO `diets` (`id_diet`, `name`, `description`) VALUES
-(1, 'Keto', 'Una dieta que se basa en consumir alimentos ricos en grasas y bajos en carbohidratos.'),
-(2, 'Mediterránea', 'Una dieta que se basa en consumir alimentos como frutas, verduras, pescados y granos enteros.'),
-(3, 'Vegana', 'Una dieta que excluye todos los productos de origen animal.'),
-(4, 'Paleo', 'Una dieta que se basa en consumir alimentos que estaban disponibles para los humanos durante la era Paleolítica, como carnes magras, pescados, frutas, vegetales, nueces y semillas.'),
-(5, 'Atkins', 'Una dieta baja en carbohidratos que se basa en consumir proteínas y grasas saludables.'),
-(6, 'Dieta de Zona', 'Una dieta que se basa en consumir una proporción específica de carbohidratos, proteínas y grasas en cada comida.');
+INSERT INTO `diets` (`id_diet`, `name`, `description`, `url`) VALUES
+(1, 'Keto', 'Una dieta que se basa en consumir alimentos ricos en grasas y bajos en carbohidratos.', 'https://www.cardamomo.news/__export/1610752251858/sites/debate/img/2021/01/15/dieta_keto__menx_semanal_cetxgenico_con_desayunox_comida_y_cena_crop1610752108521.jpeg_172596871.jpeg'),
+(2, 'Mediterránea', 'Una dieta que se basa en consumir alimentos como frutas, verduras, pescados y granos enteros.', 'https://th.bing.com/th/id/R.afce5b0bfb46fa1dc82e4e5026256f53?rik=lPoVC8plllSXOA&pid=ImgRaw&r=0'),
+(3, 'Vegana', 'Una dieta que excluye todos los productos de origen animal.', 'https://th.bing.com/th/id/R.794e42f5c5a5451aa22634e55b601b76?rik=6bgzdksV8mSncA&pid=ImgRaw&r=0'),
+(4, 'Paleo', 'Una dieta que se basa en consumir alimentos que estaban disponibles para los humanos durante la era Paleolítica, como carnes magras, pescados, frutas, vegetales, nueces y semillas.', 'https://th.bing.com/th/id/R.9d01bcd97e874fea50c793b92e50808d?rik=8C9Ct5Z8YbWiyw&pid=ImgRaw&r=0'),
+(5, 'Atkins', 'Una dieta baja en carbohidratos que se basa en consumir proteínas y grasas saludables.', 'https://th.bing.com/th/id/OIP.-IpughTAXEY0V3j_DNaPCwHaE8?rs=1&pid=ImgDetMain'),
+(6, 'Dieta de Zona', 'Una dieta que se basa en consumir una proporción específica de carbohidratos, proteínas y grasas en cada comida.', 'https://media.urgente24.com/p/01687850b2b4324cd9499cc87d3e29d7/adjuntos/319/imagenes/002/647/0002647876/dieta-nordica.jpg');
 
 -- --------------------------------------------------------
 
@@ -569,20 +570,21 @@ INSERT INTO `regions` (`id_region`, `id_country`, `name`) VALUES
 CREATE TABLE `routines` (
   `id_routine` int(10) UNSIGNED NOT NULL,
   `name` varchar(30) NOT NULL,
-  `description` text DEFAULT NULL
+  `description` varchar(500) DEFAULT NULL,
+  `url` varchar(2048) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `routines`
 --
 
-INSERT INTO `routines` (`id_routine`, `name`, `description`) VALUES
-(1, 'Rutina de pérdida de peso', 'Esta rutina está diseñada para ayudar a perder peso mediante ejercicios cardiovasculares y de fuerza'),
-(2, 'Rutina de ganancia muscular', 'Esta rutina está diseñada para ayudar a ganar masa muscular mediante ejercicios de resistencia y pes'),
-(3, 'Rutina de resistencia', 'Esta rutina está diseñada para aumentar la resistencia mediante ejercicios cardiovasculares y de alt'),
-(4, 'Rutina de flexibilidad', 'Esta rutina está diseñada para mejorar la flexibilidad mediante estiramientos y yoga.'),
-(5, 'Rutina de tonificación', 'Esta rutina está diseñada para tonificar el cuerpo mediante ejercicios de fuerza y resistencia.'),
-(6, 'Rutina de cardio', 'Esta rutina está diseñada para mejorar la salud cardiovascular mediante ejercicios aeróbicos.');
+INSERT INTO `routines` (`id_routine`, `name`, `description`, `url`) VALUES
+(1, 'Rutina de pérdida de peso', 'Esta rutina está diseñada para ayudar a perder peso mediante ejercicios cardiovasculares y de fuerza', 'https://th.bing.com/th/id/OIP.mJU5_rvGHpA94F7PU5T9dgHaEK?rs=1&pid=ImgDetMain'),
+(2, 'Rutina de ganancia muscular', 'Programa de entrenamiento que tiene como objetivo aumentar el tamaño y la fuerza de los músculos. Para lograrlo, se suelen realizar ejercicios con cargas elevadas, pocas repeticiones y descansos cortos entre series.', 'https://www.otempo.com.br/image/contentid/policy:1.2784405:1671313464/image.jpg?f=3x2&q=0.6&w=1200&$p$f$q$w=4633e5f'),
+(3, 'Rutina de resistencia', 'Programa de entrenamiento que tiene como objetivo mejorar la capacidad de mantener un esfuerzo físico durante un tiempo prolongado. Para lograrlo, se suelen realizar ejercicios con cargas moderadas, muchas repeticiones y descansos breves entre series.', 'https://th.bing.com/th/id/R.fb26e5c5b11dec7c737adef8b80aac9a?rik=uLxcVPnCVJDw3Q&pid=ImgRaw&r=0'),
+(4, 'Rutina de flexibilidad', 'Programa de entrenamiento que tiene como objetivo mejorar el rango de movimiento de las articulaciones y los músculos. Para lograrlo, se suelen realizar ejercicios de estiramiento estático o dinámico, manteniendo o moviendo las posiciones durante unos segundos o minutos.', 'https://th.bing.com/th/id/R.5c2c5f35b4e4ff22244a99b6cf8847a3?rik=ErMFzNeNGzQXeQ&pid=ImgRaw&r=0'),
+(5, 'Rutina de tonificación', 'Programa de entrenamiento que tiene como objetivo definir y endurecer los músculos, sin aumentar demasiado su volumen. Para lograrlo, se suelen realizar ejercicios con cargas bajas o medias, repeticiones moderadas y descansos cortos entre series.', 'https://media.gq-magazin.de/photos/5faa53c6e757d775fbb93b71/1:1/w_640%2cc_limit/arnold1.jpg'),
+(6, 'Rutina de cardio', 'Programa de entrenamiento que tiene como objetivo definir y endurecer los músculos, sin aumentar demasiado su volumen. Para lograrlo, se suelen realizar ejercicios con cargas bajas o medias, repeticiones moderadas y descansos cortos entre series.', 'https://th.bing.com/th/id/R.e575490c6417332d825cdfbe58660733?rik=pQAgfxiOddc4Zw&pid=ImgRaw&r=0');
 
 -- --------------------------------------------------------
 
@@ -635,7 +637,8 @@ INSERT INTO `users` (`id_user`, `firstName`, `lastName`, `email`, `rut`, `dateOf
 (1, 'Vicente', 'Herrera', 'vicensito@uwu.com', '20483861-5', '2000-09-05', '$2b$10$0bcXEyGAyqkAJf9eS6K0gOEpZo6iLun7KxWTBbJKbk4.DtjyXj.PW', 1, 1, 82, 'admin'),
 (2, 'Dorian', 'Canales', 'dorian.canales.g@mail.pucv.cl', '20963471-6', '2002-02-06', '$2b$10$O5tobk5eflzHB2z8iQIwFuPkyCRe5x1Tdj42wANfYezsF3VuaBxSa', 2, 2, 330, 'admin'),
 (3, 'Ignacio', 'Villalobos', 'nachobnb3llako@yahoo.cl', '20484286-8', '2001-10-06', '$2b$10$V2rxMaYMPRWyviPI/3xWxeRLJjBTxMGJvBLQKsAwhBW6g3SDhArSa', 4, 4, 78, 'admin'),
-(4, 'Pepito', 'Lopez', 'pepito@gmail.com', '12345678-9', '2013-06-13', '$2b$10$Svyl1j1zxJibVXiHLHz2ruQQp3ODcwRn254ma6Lae67lCROvwkcD.', 3, 3, 92, 'normal');
+(4, 'Pepito', 'Lopez', 'pepito@gmail.com', '12345678-9', '2013-06-13', '$2b$10$Svyl1j1zxJibVXiHLHz2ruQQp3ODcwRn254ma6Lae67lCROvwkcD.', 3, 3, 92, 'normal'),
+(7, 'Nicolas', '', 'nicolas@gmail.com', '217099773', '1974-10-11', '$2b$10$pi4Ok8h73Y5bZchkotzn2uPPSl02mqjRxkP3XCg0ke6CM8jAk.J0m', 2, 3, 177, 'normal');
 
 -- --------------------------------------------------------
 
@@ -795,7 +798,7 @@ ALTER TABLE `routines`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- Restricciones para tablas volcadas

@@ -1,9 +1,6 @@
 import { useForm } from "react-hook-form";
 import type { SubmitHandler } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
 import { useState } from "react";
-import React from "react";
-import axios from 'axios';
 import { authLogin } from "../function/auth";
 
 type Inputs = {

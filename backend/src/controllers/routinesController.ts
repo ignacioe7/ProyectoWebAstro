@@ -2,7 +2,16 @@ import express from 'express';
 import db from '../db';
 
 export const getRoutines = (request: express.Request, response: express.Response) => {
-  db.query('SELECT * FROM routines', (error, results) => {
+  
+  const query = `
+    SELECT routines.*, GROUP_CONCAT(exercises.name) as exercises
+    FROM routines
+    LEFT JOIN routines_exercises ON routines.id_routine = routines_exercises.id_routine
+    LEFT JOIN exercises ON routines_exercises.id_exercise = exercises.id_exercise
+    GROUP BY routines.id_routine
+  `;
+
+  db.query(query, (error, results) => {
     if (error) throw error;
     response.send(results);
   });

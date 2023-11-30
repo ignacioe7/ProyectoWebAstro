@@ -3,7 +3,14 @@ import db from '../db';
 
 // get all diets
 export const getDiets = (request: express.Request, response: express.Response) => {
-  db.query('SELECT * FROM diets', (error, results) => {
+  const query = `
+    SELECT diets.*, GROUP_CONCAT(foods.name) as foods
+    FROM diets
+    LEFT JOIN diets_foods ON diets.id_diet = diets_foods.id_diet
+    LEFT JOIN foods ON diets_foods.id_food = foods.id_food
+    GROUP BY diets.id_diet
+  `;
+  db.query(query, (error, results) => {
     if (error) throw error;
     response.send(results);
   });
