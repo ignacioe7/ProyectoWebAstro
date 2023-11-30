@@ -3,6 +3,7 @@ import ImagenPerfil from "../assets/logo.png"
 import Layout2 from "../layouts/Layout2.astro";
 import Peso from "../components/Peso.tsx"
 import Altura from "../components/Altura.tsx"
+import CerrarSesion from "../components/CerrarSesion.tsx"
 ---
 
 
@@ -28,6 +29,9 @@ import Altura from "../components/Altura.tsx"
             <p class="text-base text-gray-500 dark:text-gray-400">
               vichoelcrack@mail.com
             </p>
+          </div>
+          <div>
+            <CerrarSesion client:load></CerrarSesion>
           </div>
         </div>
       </div>
@@ -66,6 +70,8 @@ import Altura from "../components/Altura.tsx"
         <Altura client:load></Altura>
         <Peso client:load></Peso>
       </div>
+    </div>
+  </section>
 </Layout2>
 
 <script src="../../node_modules/chart.js/dist/chart.umd.js"></script>

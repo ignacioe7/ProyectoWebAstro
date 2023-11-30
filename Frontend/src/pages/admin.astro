@@ -4,21 +4,13 @@ import TablaUsuarios from "../components/TablaUsuarios.tsx";
 import { getAuthLocalStorage } from "../function/localstorage";
 
 
-let isAdmin = true;
 
 ---
 
 <Layout2 title="admin page">
   <div class="place-content-center p-8">
-    {
-      isAdmin ? (
         <div class="flex justify-center">
           <TablaUsuarios client:load/>
         </div>
-      ) : (
-        <p>No tienes permisos para ver esta página.</p>
-      )
-    }
-
   </div>
 </Layout2>

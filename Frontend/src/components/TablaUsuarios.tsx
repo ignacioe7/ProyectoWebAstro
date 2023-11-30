@@ -13,16 +13,20 @@ const UserTable: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/users');
-        setUsers(response.data);
-      } catch (error) {
-        console.error('Error al obtener los usuarios:', error);
-      }
-    };
+    const user = getAuthLocalStorage();
+    console.log(user);
+    if (user && user.user && user.user.role) {
 
-    fetchUsers();
+      if (user.user.role === 'admin') {
+        axios.get('http://localhost:3000/users')
+          .then(response => {
+            setUsers(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching data: ', error);
+          });
+      }
+    }
   }, []);
 
   const deleteUser = async (userId: number) => {
