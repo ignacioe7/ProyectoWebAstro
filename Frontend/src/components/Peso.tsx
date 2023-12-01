@@ -13,13 +13,7 @@ const Registro = () => {
     formState: { errors, isSubmitting },
   } = useForm<FormData>();
 
-  const validatePeso = (value: string) => {
-    const numValue = parseFloat(value.replace(",", "."));
-    return (
-      (numValue >= 2.1 && numValue <= 635) ||
-      "Peso no válida, verifique que sea en kilogramos\n ej: 72,34"
-    );
-  };
+  
 
   const [usuarios] = React.useState<FormData[]>([]);
 

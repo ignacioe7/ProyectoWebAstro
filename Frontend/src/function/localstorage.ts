@@ -1,4 +1,5 @@
 type AuthResData = {
+    userType: AuthResData | undefined;
     token: {
       expiresOn: number;
       token: string;

@@ -1,10 +1,34 @@
 import { Dialog } from "@headlessui/react";
-import { useRef, useState } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+
+import { getAuthLocalStorage } from "../function/localstorage";
+
+type User = {
+  id_user: number;
+  firstName: string;
+  role: string;
+};
+
+type AuthData = {
+  token: {
+    expiresOn: number;
+    token: string;
+  };
+  user: User;
+};
 
 export const MobileHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
+  const [authData, setAuthData] = useState<AuthData | null>(null);
+  useEffect(() => {
+    const data = getAuthLocalStorage();
+    console.log(data);
+    if (data) {
+      setAuthData(data);
 
+    }
+  }, []);
   return (
     <>
       <button onClick={() => setIsOpen(true)}>
@@ -60,26 +84,48 @@ export const MobileHeader = () => {
             <a className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
               href="/rutinas">Ejercitación</a>
             <a className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
-            href="/acercaDe">Acerca de Nosotros</a>
+              href="/acercaDe">Acerca de Nosotros</a>
             <a className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
               href="/contacto">Contacto</a>
             <a className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
               href="/blog">Blog</a>
-            <a className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
-              href="perfilUsuario">perfil</a>
-              
           </div>
+
           <div className="relative bottom-0">
-              <div className="pt-6">
-                <a className="block px-4 py-3 mb-3 leading-loose text-xl text-center font-semibold transition-colors duration-900 ease-in-out transform active:scale-95 bg-transparent hover:bg-gradient-to-r from-yellow-300 to-red-600 text-gray-50 hover:text-gray-800 rounded-xl "
-                  href="/inicioSesion">Iniciar Sesión</a>
-                <a className="block px-4 py-3 mb-2 leading-loose text-xl text-center text-white font-semibold bg-gradient-to-r from-red-600 to-purple-600 hover:from-blue-600 hover:to-green-500 rounded-xl transition-colors duration-500 transform active:scale-95"
-                  href="/registro">Crear cuenta</a>
+            {authData && authData.user.role === 'admin' && (
+              <div className="flex flex-col items-center space-y-2.5 mt-5">
+                <a
+                  className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
+                  href="/admin">Admin</a>
               </div>
-              <p className="my-4 text-xs text-center text-gray-400">
-                <span>Copyright © 2023</span>
-              </p>
-            </div>  
+            )}
+            {authData ? (
+              <div className="flex flex-col items-center space-y-2.5 mt-5">
+                <a
+                  className="text-xl text-gray-400 hover:text-gray-100 hover:underline-offset-4 hover:underline hover:bg-gray-600 rounded py-2 px-1 transform active:scale-90"
+                  href="/perfilUsuario">Perfil</a>
+              </div>
+            ) : null}
+            <div className="pt-6">
+
+            </div>
+            <p className="my-4 text-xs text-center text-gray-400">
+              <span>Copyright © 2023</span>
+            </p>
+            {!authData ? (
+              <ul className="lg:flex items-center space-x-3.5 ">
+                <li>
+                  <a className="block px-4 py-3 mb-3 leading-loose text-xl text-center font-semibold transition-colors duration-900 ease-in-out transform active:scale-95 bg-transparent hover:bg-gradient-to-r from-yellow-300 to-red-600 text-gray-50 hover:text-gray-800 rounded-xl "
+                    href="/inicioSesion">Iniciar Sesión</a>
+                </li>
+                <li>
+                  <a className="block px-4 py-3 mb-2 leading-loose text-xl text-center font-semibold transition-colors duration-900 ease-in-out transform active:scale-95 bg-transparent hover:bg-gradient-to-r from-red-600 to-purple-600 text-gray-50 hover:text-gray-800 rounded-xl "
+                    href="/registro">Crear cuenta</a>
+                </li>
+              </ul>
+            ) : null}
+          </div>
+
         </Dialog.Panel>
       </Dialog>
     </>

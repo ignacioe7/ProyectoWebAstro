@@ -25,6 +25,9 @@ const UserTable: React.FC = () => {
           .catch(error => {
             console.error('Error fetching data: ', error);
           });
+      }else{
+        alert("No tienes permisos para acceder a esta página");
+        window.location.href = "/";
       }
     }
   }, []);

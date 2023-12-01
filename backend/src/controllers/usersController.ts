@@ -41,7 +41,7 @@ export const getUser = (
   response: express.Response
 ) => {
   const query = `
-    SELECT users.id_user, users.firstName, users.lastName, users.email, users.rut, DATE_FORMAT(users.dateOfBirth, '%d-%m-%Y') AS dateOfBirth, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
+    SELECT users.firstName, users.lastName, users.email, users.rut, diets.name AS diet_name, routines.name AS routine_name, cities.name AS city_name
     FROM users
     LEFT JOIN diets ON users.id_diet = diets.id_diet
     LEFT JOIN routines ON users.id_routine = routines.id_routine
@@ -209,7 +209,6 @@ export const getYearlyStats = (
   let lastIMC: number | null = null;
   let lastWeight: number | null = null;
   type StatsData = {
-    id_user: string;
     averageWeight: number;
     imc: number;
     month: string;
@@ -278,7 +277,6 @@ export const getYearlyStats = (
 
           // Añade un objeto con el promedio del peso, el IMC y el mes a la lista de datos de estadísticas
           statsData.push({
-            id_user: userId,
             averageWeight: averageWeight ?? 0,
             imc: imc ?? 0,
             month: monthNames[month - 1],
