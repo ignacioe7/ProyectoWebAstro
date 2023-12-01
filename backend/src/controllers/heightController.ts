@@ -36,6 +36,25 @@ export const addHeight = (
   });
 };
 
+export const addHeightAdmin = (
+  request: express.Request,
+  response: express.Response
+) => {
+  const heightData = {
+    ...request.body
+  };
+
+  const query = "INSERT INTO height SET ?";
+  db.query(query, heightData, (error, results) => {
+    if (error) {
+      console.error("Error executing query:", error);
+      response.status(500).json({ error: "Internal server error" });
+      return;
+    }
+    response.status(200).json(results);
+  });
+};
+
 export const deleteHeight = (
   request: express.Request,
   response: express.Response

@@ -36,6 +36,33 @@ export const addWeight = (
   });
 };
 
+interface WeightData {
+  id_user: number;
+  weight: number;
+  date: string;
+}
+
+export const addWeightAdmin = (
+  request: express.Request,
+  response: express.Response
+) => {
+  const weightDataArray: WeightData[] = request.body;
+
+  const query = "INSERT INTO weight SET ?";
+
+  weightDataArray.forEach((weightData: WeightData) => {
+    db.query(query, weightData, (error, results) => {
+      if (error) {
+        console.error("Error executing query:", error);
+        response.status(500).json({ error: "Internal server error" });
+        return;
+      }
+    });
+  });
+
+  response.status(200).json({ message: "Weights inserted successfully" });
+};
+
 export const deleteWeight = (
   request: express.Request,
   response: express.Response
